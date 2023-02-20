@@ -1,0 +1,85 @@
+﻿@model DataContext.Paging.PagingList<DataContext.Models.Product>
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    ViewData["Title"] = "Product List";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+
+    <thead>
+        <tr>
+            <th style="width:10%;">
+                @Html.ActionLink("ProductId", "Index", new { currentFilter = ViewBag.CurrentFilter })
+            </th>
+            <th style="width:20%;">
+                @Html.ActionLink("ProductName", "Index", new {  currentFilter = ViewBag.CurrentFilter })
+            </th>
+            <th style="width:10%;">
+                @Html.ActionLink("CategoryId", "Index", new { currentFilter = ViewBag.CurrentFilter })
+            </th>
+            <th style="width:20%;">
+                @Html.ActionLink("CategoryName", "Index", new { currentFilter = ViewBag.CurrentFilter })
+            </th>
+            <th style="width:10%;"></th>
+        </tr>
+    </thead>
+
+
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProductId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProductName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CategoryId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CategoryInfo.CategoryName)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.ProductId }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.ProductId })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<br />
+
+@{
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+    var totalPageNo = Model.TotalPageNo;
+    var currentPageNo = Model.PageIndex;
+}
+
+<a asp-action="Index"
+   asp-route-sortOrder="@ViewData["CurrentSort"]"
+   asp-route-pageNo="@(Model.PageIndex - 1)"
+   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+   class="btn btn-default @prevDisabled">
+    Previous
+</a>
+<a asp-action="Index"
+   asp-route-sortOrder="@ViewData["CurrentSort"]"
+   asp-route-pageNo="@(Model.PageIndex + 1)"
+   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+   class="btn btn-default @nextDisabled">
+    Next
+</a>
+<span>
+    Page No : @currentPageNo of @totalPageNo
+</span>  

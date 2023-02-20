@@ -1,0 +1,43 @@
+﻿@model DataContext.Models.Product
+@{
+    ViewData["Title"] = Model != null ? "Edit" : "Create";
+}
+
+
+<h2>@ViewData["Title"] Product</h2>
+
+<hr />
+<div class="row">
+    <div class="col-lg-12">
+        
+        <form method="post">
+            <div asp-validation-summary="All"></div>
+
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label asp-for="ProductName">Product Name</label>
+                    <input type="text" class="form-control mb-3" asp-for="ProductName" placeholder="Enter Name">
+                    <span asp-validation-for="ProductName" class=" alert-danger"></span>
+                </div>
+                <div class="form-group col-md-6">
+                    <label asp-for="CategoryId">Category Name</label>
+ <select asp-for="CategoryId" asp-items="@(new SelectList(ViewBag.Categories,"CategoryId","CategoryName"))" class="form-control">
+                            <option value="">--Select--</option>
+                        </select>
+                    <span asp-validation-for="CategoryId" class=" alert-danger"></span>
+                </div>
+            </div>
+
+
+
+            <button type="submit" class="btn btn-lg btn-primary p-2"><i class="bi bi-file-plus-fill"></i>Save</button>
+            <a asp-controller="Product" asp-action="Index" class="btn btn-lg btn-warning p-2">Back To List</a>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }  
